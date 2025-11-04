@@ -1,0 +1,1132 @@
+openapi: 3.1.0
+info:
+  title: ICS Account Linking and Checkout API V2
+  version: '1.0'
+servers:
+  - url: >-
+      https://developer.api.us.stg.walmart.com/api-proxy/service/ics-account-linking/api/v1
+security:
+  - Authorization: [ ]
+    wm_consumer.id: [ ]
+paths:
+  /titleid/{titleId}/lcid:
+    post:
+      tags:
+        - account-linking-controller
+      operationId: linkCustomer
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/AcceptHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountLinkingRequest'
+        required: true
+      responses:
+        '201':
+          description: CREATED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/LinkLcidResponse'
+        '400':
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: UNAUTHORIZED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: FORBIDDEN
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        '503':
+          description: SERVICE UNAVALIABLE
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+  /titleid/{titleId}/lcid/lcidheader:
+    put:
+      tags:
+        - account-linking-controller
+      operationId: reAuthenticate
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: lcidheader
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+
+        '400':
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: UNAUTHORIZED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: FORBIDDEN
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        '404':
+          description: NOT_FOUND
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '503':
+          description: SERVICE UNAVALIABLE
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+    delete:
+      tags:
+        - account-linking-controller
+      operationId: delinkCustomer
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: lcidheader
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/AcceptHeader'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/DelinkLcidResponse'
+        '400':
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: UNAUTHORIZED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: FORBIDDEN
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        '404':
+          description: NOT_FOUND
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '503':
+          description: SERVICE UNAVALIABLE
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+  /titleid/{titleId}/login-url:
+    get:
+      tags:
+        - account-linking-controller
+      operationId: getLoginUrl
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: platform
+          in: query
+          description: (Optional) ICS pre-defined platform name. "web", "mobile", etc.
+          required: false
+          schema:
+            type: string
+
+        - $ref: '#/components/parameters/AcceptHeader'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/LoginUrl'
+        '400':
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: UNAUTHORIZED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: FORBIDDEN
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        '503':
+          description: SERVICE UNAVALIABLE
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+  /titleid/{titleId}/lcid/lcidheader/account-details:
+    get:
+      tags:
+        - account-details-controller
+      operationId: getAccountDetail
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: lcidheader
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/AcceptHeader'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AccountDetailResponse'
+        '400':
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: UNAUTHORIZED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: FORBIDDEN
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        '404':
+          description: NOT_FOUND
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '503':
+          description: SERVICE UNAVALIABLE
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+  /loginredirect:
+    get:
+      tags:
+        - redirect-controller
+      operationId: loginRedirect
+      parameters:
+        - name: nonce
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: code
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: state
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '307':
+          description: Temporary Redirect
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+                examples:
+                  - "https://title-callback?nonce={nonce}&code={code}"
+              description: "Title server redirect location"
+          content: { }
+        '400':
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: NOT_FOUND
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '503':
+          description: SERVICE UNAVALIABLE
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+  /checkoutredirect:
+    get:
+      tags:
+        - redirect-controller
+      operationId: checkoutRedirect
+      parameters:
+        - name: customField1
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: customField2
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: customField3
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: customField4
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: customField5
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '307':
+          description: Temporary Redirect
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+                examples:
+                  - "https://title-callback?customField1=<affiliateId>&customField2=<ICS subaffiliateId>&customField3=<ICS titleId>&customField4=<commOppId>&customField5=<cv>"
+              description: "Title server redirect location"
+          content: { }
+        '400':
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: NOT_FOUND
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '503':
+          description: SERVICE UNAVALIABLE
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+  /titleid/{titleId}/lcid/lcidheader/prepare-order:
+    post:
+      tags:
+        - prepare-order-controller
+      operationId: prepareOrder
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: lcidheader
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/ContentTypeHeader'
+        - $ref: '#/components/parameters/AcceptHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrepareOrderRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PrepareOrderResponse'
+        '400':
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: UNAUTHORIZED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: FORBIDDEN
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        '404':
+          description: NOT_FOUND
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '503':
+          description: SERVICE UNAVALIABLE
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+  /titleid/{titleId}/lcid/lcidheader/place-order:
+    post:
+      tags:
+        - place-order-controller
+      operationId: placeOrder
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: lcidheader
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/ContentTypeHeader'
+        - $ref: '#/components/parameters/AcceptHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaceOrderRequest'
+            examples:
+              creditPayment:
+                value:
+                  contractId: "abb692e0-7ef0-4204-867a-1fe6e34fb9f9"
+                  tenderPlanId: "af2c2921-94fb-4fed-abf5-c2bd973c96fc"
+                  payments:
+                    - paymentType: "CREDITCARD"
+                      paymentId: "3947f786-6389-464d-82be-0f23b06ec426"
+              paypalPayment:
+                value:
+                  contractId: "abb692e0-7ef0-4204-867a-1fe6e34fb9f9"
+                  tenderPlanId: "af2c2921-94fb-4fed-abf5-c2bd973c96fc"
+                  payments:
+                    - paymentType: "PAYPAL"
+                      paymentHandle: "PAYPAL_PAYMENT_HANDLE"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PlaceOrderResponse'
+        '400':
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: UNAUTHORIZED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: FORBIDDEN
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        '404':
+          description: NOT_FOUND
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '503':
+          description: SERVICE UNAVALIABLE
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
+  /titleid/{titleId}/lcid/lcidheader/shipping-address:
+    post:
+      tags:
+        - shipping-address-controller
+      operationId: shippingAddress
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: lcidheader
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/ContentTypeHeader'
+        - $ref: '#/components/parameters/AcceptHeader'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShippingAddressRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/PrepareOrderResponse'
+        '400':
+          description: BAD_REQUEST
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: UNAUTHORIZED
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Unauthorized'
+        '403':
+          description: FORBIDDEN
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Forbidden'
+        '404':
+          description: NOT_FOUND
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/NotFound'
+        '503':
+          description: SERVICE UNAVALIABLE
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ServerError'
+components:
+  parameters:
+    ContentTypeHeader:
+      name: Content-Type
+      in: header
+      required: false
+      schema:
+        type: string
+      example: "application/json"
+    AcceptHeader:
+      name: Accept
+      in: header
+      required: false
+      schema:
+        type: string
+      example: "application/json"
+  schemas:
+    LinkLcidResponse:
+      type: object
+      properties:
+        lcid:
+          type: string
+          format: uuid
+          examples:
+            - "14c23088-0858-4f52-a9e5-de604e4c32f0"
+    DelinkLcidResponse:
+      type: object
+      properties:
+        delinkedLcid:
+          type: string
+          format: uuid
+          examples:
+            - "14c23088-0858-4f52-a9e5-de604e4c32f0"
+    LoginUrl:
+      type: object
+      properties:
+        login-url:
+          type: string
+          format: url
+          examples:
+            - "https://www.walmart.com/account/login?scope=/ics/checkout-api&redirect_uri=<ICS redirect controller url>&client_id=<ICS managed affiliate's client-id>&state=<ICS state String>&nonce=<generated nonce>"
+    AccountDetailResponse:
+      type: object
+      properties:
+        payload:
+          $ref: '#/components/schemas/AccountDetailPayload'
+    AccountDetailPayload:
+      type: object
+      properties:
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAddress'
+        payments:
+          $ref: '#/components/schemas/UserPayments'
+    UserAddress:
+      type: object
+      properties:
+        id:
+          type: string
+          examples:
+            - "124bfc45-486d-41f7-8224-c09a8397033v"
+        addressLineOne:
+          type: string
+          examples:
+            - "Address"
+        isDefault:
+          type: boolean
+    UserPayments:
+      type: object
+      properties:
+        creditCards:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCreditCard'
+    UserCreditCard:
+      type: object
+      properties:
+        id:
+          type: string
+          examples:
+            - "3947f786-6389-464d-82be-0f23b06ec422"
+        isDefault:
+          type: boolean
+        needVerifyCVV:
+          type: boolean
+        paymentType:
+          type: string
+          examples:
+            - "CREDIT"
+        cardType:
+          type: string
+          examples:
+            - "VISA"
+        isExpired:
+          type: boolean
+        lastFour:
+          type: string
+          examples:
+            - "0000"
+    AccountLinkingRequest:
+      required:
+        - code
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - "B65E3C4E01764AFFB9297FAE13DD3EBA"
+    PrepareOrderRequest:
+      required:
+        - cV
+        - commOppId
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrepareOrderRequestItem'
+        commOppId:
+          type: string
+          format: uuid
+        cV:
+          type: string
+          format: uuid
+    PrepareOrderRequestItem:
+      required:
+        - itemId
+      type: object
+      properties:
+        itemId:
+          type: string
+          examples:
+            - "904246915"
+        quantity:
+          maximum: 99
+          minimum: 1
+          type: integer
+          format: int32
+          examples:
+            - 1
+        overrides:
+          $ref: '#/components/schemas/PrepareOrderRequestItemOverrides'
+    PrepareOrderRequestItemOverrides:
+      type: object
+      properties: 
+        commOpId:
+          type: 
+            - string
+            - 'null'
+          format: uuid
+          examples:
+              - "3a98738c-c4d6-4b9d-b2e9-9a55b65197b3"
+    PrepareOrderResponse:
+      type: object
+      properties:
+        payload:
+          $ref: '#/components/schemas/PrepareOrderPayload'
+    PrepareOrderPayload:
+      type: object
+      properties:
+        purchaseContractId:
+          type: string
+          examples:
+            - "abb692e0-7ef0-4204-867a-1fe6e34fb9f9"
+        tenderPlanId:
+          type: string
+          examples:
+            - "af2c2921-94fb-4fed-abf5-c2bd973c96fc"
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrepareOrderItem'
+        totals:
+          $ref: '#/components/schemas/PrepareOrderTotals'
+        taxes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrepareOrderTax'
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrepareOrderFees'
+        deliveryAddress:
+          $ref: '#/components/schemas/PrepareOrderDeliveryAddress'
+        deliveryDates:
+          $ref: '#/components/schemas/PrepareOrderDeliveryDates'
+    PrepareOrderItem:
+      type: object
+      properties:
+        itemId:
+          type: string
+          examples:
+            - "128373126"
+        offerId:
+          type: string
+          examples:
+            - "85DE03EB145B4BC0958C7B88A11C8BFB"
+        sellerId:
+          type: integer
+          format: int64
+        sellerName:
+          type: string
+          examples:
+            - "Walmart.com"
+        quantity:
+          type: integer
+          format: int32
+          examples:
+            - 1
+        unitPrice:
+          type: number
+          format: double
+          examples:
+            - 3.2
+        deliveryDates:
+          $ref: '#/components/schemas/PrepareOrderDeliveryDates'
+        arrivesBy:
+          type: string
+          examples:
+            - "2024-04-13T21:59:00Z"
+        arrivesByLabel:
+          type: string
+          examples:
+            - "Arrives by Sat, Apr 13"
+        errors:
+          type: array
+          examples:
+            - [ ]
+          items:
+            $ref: '#/components/schemas/Error'
+    PrepareOrderTotals:
+      type: object
+      properties:
+        subTotal:
+          type: number
+          format: double
+          examples:
+            - 3.2
+        shippingTotal:
+          type: number
+          format: double
+          examples:
+            - 6.99
+        taxTotal:
+          type: number
+          format: double
+          examples:
+            - 3.49
+        feesTotal:
+          type: number
+          format: double
+          examples:
+            - 0
+        grandTotal:
+          type: number
+          format: double
+          examples:
+            - 12.99
+    PrepareOrderTax:
+      type: object
+      properties:
+        label:
+          type: string
+          examples:
+            - "Estimated taxes"
+        value:
+          type: number
+          format: double
+          examples:
+            - 3.49
+    PrepareOrderFees:
+      type: object
+      properties:
+        label:
+          type: string
+          examples:
+            - "fee label"
+        value:
+          type: number
+          format: double
+          examples:
+            - 0
+        key:
+          type: string
+          examples:
+            - "fee key"
+    PrepareOrderDeliveryAddress:
+      type: object
+      properties:
+        id:
+          type: string
+          examples:
+            - "9cab0e97-34ea-4509-b5fe-bc078e7e7282"
+        firstName:
+          type: string
+          examples:
+            - "First name"
+        lastName:
+          type: string
+          examples:
+            - "Last name"
+        addressLineOne:
+          type: string
+          examples:
+            - "Address line 1"
+        addressLineTwo:
+          type: string
+          examples:
+            - "Address line 2"
+        city:
+          type: string
+          examples:
+            - "San Bruno"
+        state:
+          type: string
+          examples:
+            - "CA"
+        postalCode:
+          type: string
+          examples:
+            - "94066"
+        phone:
+          type: string
+          examples:
+            - "0000000000"
+    PrepareOrderDeliveryDates:
+      type: object
+      properties:
+        startDate:
+          type: string
+          examples:
+            - "2024-04-13T21:59:00Z"
+        endDate:
+          type: string
+          examples:
+            - "2024-04-13T21:59:00Z"
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    PlaceOrderRequest:
+      required:
+        - contractId
+        - tenderPlanId
+        - payments
+      type: object
+      properties:
+        contractId:
+          type: string
+          examples:
+            - "abb692e0-7ef0-4204-867a-1fe6e34fb9f9"
+        tenderPlanId:
+          type: string
+          examples:
+            - "af2c2921-94fb-4fed-abf5-c2bd973c96fc"
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaceOrderPayment'
+    PlaceOrderPayment:
+      type: object
+      properties:
+        paymentType:
+          type: string
+          enum:
+            - CREDITCARD
+            - PAYPAL
+        paymentId:
+          type: string
+          examples:
+            - "3947f786-6389-464d-82be-0f23b06ec422"
+        paymentHandle:
+          type: string
+          description: "Required is paymentType is PAYPAL"
+      required:
+        - paymentType
+    PlaceOrderResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          examples:
+            - "Order placed successfully"
+    ShippingAddressRequest:
+      type: object
+      properties:
+        contractId:
+          type: string
+          format: uuid
+          examples:
+            - "3a98738c-c4d6-4b9d-b2e9-9a55b65197b3"
+        addressId:
+          type: string
+          format: uuid
+          examples:
+            - "c20982e8-f1c4-4353-83ef-323beb575671"
+    BadRequest:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                examples:
+                  - "80002"
+              message:
+                type: string
+                examples:
+                  - "error message"
+        operationId:
+          type: string
+          format: uuid
+    Unauthorized:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                examples:
+                  - "80004"
+              message:
+                type: string
+                examples:
+                  - "error message"
+        operationId:
+          type: string
+          format: uuid
+    Forbidden:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                examples:
+                  - "80003"
+              message:
+                type: string
+                examples:
+                  - "error message"
+        operationId:
+          type: string
+          format: uuid
+    ServerError:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                examples:
+                  - "80001"
+              message:
+                type: string
+                examples:
+                  - "error message"
+        operationId:
+          type: string
+          format: uuid
+    NotFound:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                examples:
+                  - "80105"
+              message:
+                type: string
+                examples:
+                  - "error message"
+        operationId:
+          type: string
+          format: uuid
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    wm_consumer.id:
+      type: apiKey
+      description: Consumer ID
+      name: wm_consumer.id
+      in: header

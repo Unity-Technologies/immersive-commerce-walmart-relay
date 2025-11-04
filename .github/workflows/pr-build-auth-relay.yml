@@ -1,0 +1,24 @@
+name: PR - Build & test Auth Relay Service
+
+on:
+  pull_request:
+    paths:
+      - "Project/**"
+      - "UnitTests/**"
+      - ".github/workflows/pr-build-auth-relay.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build
+      - name: Test
+        run: dotnet test
