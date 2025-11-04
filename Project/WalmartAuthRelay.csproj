@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <Configurations>Debug;Release</Configurations>
+        <RootNamespace>Unity.WalmartAuthRelay</RootNamespace>
+        <LangVersion>default</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="Com.Unity.Services.CloudCode.Apis" Version="0.0.21" />
+      <PackageReference Include="Com.Unity.Services.CloudCode.Core" Version="0.0.2" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+      <PackageReference Include="PemUtils" Version="3.0.0.82" />
+      <PackageReference Include="Polly.Contrib.WaitAndRetry" Version="1.1.1" />
+      <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="8.0.8" />
+      <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="8.8.0" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+<!--    <Target Name="Zip" AfterTargets="Publish">-->
+<!--        <Message Importance="high" Text="Zipping output!!"/>-->
+<!--        <Exec Command="zip -r $(SolutionDir)ExampleModule.ccm $(PublishDir)" />-->
+<!--    </Target>-->
+</Project>

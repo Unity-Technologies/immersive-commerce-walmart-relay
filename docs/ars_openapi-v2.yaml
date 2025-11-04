@@ -1,0 +1,411 @@
+openapi: 3.0.1
+info:
+  title: Walmart Auth Relay OpenApi Specification
+  version: 1.0.0
+servers:
+  - url: https://cloud-code.services.api.unity.com/v1/projects/[project_id]/modules/WalmartAuthRelay
+paths:
+  /GetLoginUrl:
+    post:
+      description: GetLoginUrl POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+                  properties:
+                    platform:
+                      type: string
+                      description: (Optional) ICS pre-defined platform name. "web" or "mobile"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.LoginUrlResponse'
+    x-class-name: Unity.WalmartAuthRelay.AuthRelayModule
+  /LinkAccount:
+    post:
+      description: LinkAccount POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+                  properties:
+                    authorizationCode:
+                      type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.LinkAccountResponse'
+    x-class-name: Unity.WalmartAuthRelay.AuthRelayModule
+  /UnlinkAccount:
+    post:
+      description: UnlinkAccount POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.UnlinkAccountResponse'
+    x-class-name: Unity.WalmartAuthRelay.AuthRelayModule
+  /GetAccountDetails:
+    post:
+      description: GetAccountDetails POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.AccountDetailsResponse'
+    x-class-name: Unity.WalmartAuthRelay.AuthRelayModule
+  /SetShippingAddress:
+    post:
+      description: SetShippingAddress POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+                  properties:
+                    contractId:
+                      type: string
+                    addressId:
+                      type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.PrepareOrderResponse'
+    x-class-name: Unity.WalmartAuthRelay.AuthRelayModule
+  /PlaceOrder:
+    post:
+      description: PlaceOrder POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+                  properties:
+                    contractId:
+                      type: string
+                    tenderPlanId:
+                      type: string
+                    paymentType:
+                      type: string
+                    paymentId:
+                      type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.PlaceOrderResponse'
+    x-class-name: Unity.WalmartAuthRelay.AuthRelayModule
+  /PrepareOrder:
+    post:
+      description: PrepareOrder POST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                params:
+                  type: object
+                  properties:
+                    orderItems:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.OrderItemRequest'
+                    commOpId:
+                      type: string
+                    correlationVectorId:
+                      type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  output:
+                    $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.PrepareOrderResponse'
+    x-class-name: Unity.WalmartAuthRelay.AuthRelayModule
+components:
+  schemas:
+    Unity.WalmartAuthRelay.Contracts.LoginUrlResponse:
+      properties:
+        Errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.Error'
+        Payload:
+          type: string
+        Headers:
+          type: object
+          additionalProperties:
+            type: string
+    Unity.WalmartAuthRelay.Contracts.Error:
+      properties:
+        Code:
+          type: string
+        Message:
+          type: string
+    Unity.WalmartAuthRelay.Contracts.LinkAccountResponse:
+      properties:
+        Errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.Error'
+        Payload:
+          type: boolean
+        Headers:
+          type: object
+          additionalProperties:
+            type: string
+    Unity.WalmartAuthRelay.Contracts.UnlinkAccountResponse:
+      properties:
+        Errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.Error'
+        Payload:
+          type: boolean
+        Headers:
+          type: object
+          additionalProperties:
+            type: string
+    Unity.WalmartAuthRelay.Contracts.AccountDetailsResponse:
+      properties:
+        Errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.Error'
+        Payload:
+          $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.AccountDetailsPayloadResponse'
+        Headers:
+          type: object
+          additionalProperties:
+            type: string
+    Unity.WalmartAuthRelay.Contracts.AccountDetailsPayloadResponse:
+      properties:
+        Addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.AddressResponse'
+        Payments:
+          $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.PaymentsResponse'
+    Unity.WalmartAuthRelay.Contracts.AddressResponse:
+      properties:
+        Id:
+          $ref: '#/components/schemas/System.Guid'
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        AddressLineOne:
+          type: string
+        IsDefault:
+          type: boolean
+    System.Guid:
+      properties:
+        Variant:
+          type: integer
+          format: int32
+        Version:
+          type: integer
+          format: int32
+    Unity.WalmartAuthRelay.Contracts.PaymentsResponse:
+      properties:
+        CreditCards:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.CreditCardResponse'
+    Unity.WalmartAuthRelay.Contracts.CreditCardResponse:
+      properties:
+        Id:
+          $ref: '#/components/schemas/System.Guid'
+        IsDefault:
+          type: boolean
+        NeedVerifyCvv:
+          type: boolean
+        PaymentType:
+          type: string
+        CardType:
+          type: string
+        LastFour:
+          type: string
+        IsExpired:
+          type: boolean
+    Unity.WalmartAuthRelay.Contracts.PrepareOrderResponse:
+      properties:
+        Errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.Error'
+        Payload:
+          $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.PrepareOrderPayloadResponse'
+        Headers:
+          type: object
+          additionalProperties:
+            type: string
+    Unity.WalmartAuthRelay.Contracts.PrepareOrderPayloadResponse:
+      properties:
+        PurchaseContractId:
+          $ref: '#/components/schemas/System.Guid'
+        TenderPlanId:
+          $ref: '#/components/schemas/System.Guid'
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.OrderItemResponseField'
+        Totals:
+          $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.OrderAmountTotalsResponseField'
+        Taxes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.LabelValueResponseField'
+        Fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.LabelValueResponseField'
+        DeliveryAddress:
+          $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.DeliveryAddressResponseField'
+    Unity.WalmartAuthRelay.Contracts.OrderItemResponseField:
+      properties:
+        DeliveryDates:
+          $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.StartAndEndDatesResponseField'
+        ItemId:
+          type: string
+        OfferId:
+          type: string
+        Quantity:
+          type: integer
+          format: int32
+        UnitPrice:
+          type: number
+          format: decimal
+        Errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.Error'
+    Unity.WalmartAuthRelay.Contracts.StartAndEndDatesResponseField:
+      properties:
+        StartDate:
+          type: string
+        EndDate:
+          type: string
+    Unity.WalmartAuthRelay.Contracts.OrderAmountTotalsResponseField:
+      properties:
+        SubTotal:
+          type: number
+          format: decimal
+        ShippingTotal:
+          type: number
+          format: decimal
+        TaxTotal:
+          type: number
+          format: decimal
+        FeesTotal:
+          type: number
+          format: decimal
+        GrandTotal:
+          type: number
+          format: decimal
+    Unity.WalmartAuthRelay.Contracts.LabelValueResponseField:
+      properties:
+        Label:
+          type: string
+        Value:
+          type: number
+          format: decimal
+    Unity.WalmartAuthRelay.Contracts.DeliveryAddressResponseField:
+      properties:
+        Id:
+          $ref: '#/components/schemas/System.Guid'
+        AddressLineOne:
+          type: string
+    Unity.WalmartAuthRelay.Contracts.PlaceOrderResponse:
+      properties:
+        Errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.Error'
+        Payload:
+          $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.PlaceOrderPayloadResponse'
+    Unity.WalmartAuthRelay.Contracts.PlaceOrderPayloadResponse:
+      properties:
+        Message:
+          type: string
+    Unity.WalmartAuthRelay.Contracts.OrderItemRequest:
+      properties:
+        itemId:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+        overrides:
+          $ref: '#/components/schemas/Unity.WalmartAuthRelay.Contracts.OrderItemRequestOverrides'
+    Unity.WalmartAuthRelay.Contracts.OrderItemRequestOverrides:
+      properties:
+        commOpId:
+          type:
+            - string
+            - 'null'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - { }
