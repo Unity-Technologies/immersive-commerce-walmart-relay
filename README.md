@@ -1,5 +1,8 @@
 # Walmart Immersive Commerce - Authentication Relay Service
 
+## Disclaimer
+The repo does not accept pull requests, GitHub review requests, or any other GitHub-hosted issue management requests.
+
 ## Table of Contents
 
 - [Overview](#overview)
