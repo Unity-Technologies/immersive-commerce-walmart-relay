@@ -15,27 +15,6 @@ The above copyright notice and this permission notice (including the next paragr
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-Component Name: Com.Unity.Services.CloudCode.Apis
-
-License Type: Proprietary
-
-Com.Unity.Services.CloudCode.Apis copyright © 2025 Unity Technologies.
-
-This software is subject to, and made available under, the Unity Terms of Service (see https://unity.com/legal). Your use of this software constitutes your acceptance of such terms.
-
-Unless expressly provided otherwise, the software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the Terms of Service for details on these and other terms and conditions
-
-Component Name: Com.Unity.Services.CloudCode.Core
-
-License Type: Proprietary
-
-Com.Unity.Services.CloudCode.Core copyright © 2025 Unity Technologies.
-
-This software is subject to, and made available under, the Unity Terms of Service (see https://unity.com/legal). Your use of this software constitutes your acceptance of such terms.
-
-Unless expressly provided otherwise, the software under this license is made available strictly on an “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. Please review the Terms of Service for details on these and other terms and conditions
-
-
 Component Name: Microsoft.Extensions.Logging.Abstractions
 
 License Type: MIT
