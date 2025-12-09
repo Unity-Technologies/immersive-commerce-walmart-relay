@@ -1,6 +1,5 @@
 import functions_framework
 import re
-import time
 from flask import render_template_string, Response
 
 SECURE_TEMPLATE = """
@@ -22,7 +21,6 @@ SECURE_TEMPLATE = """
         }
         catch (e) { console.log(e) }       
     </script>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'">
 </head>
 <body>
 code: {{ code }}
@@ -49,7 +47,7 @@ def validate_oauth_param(param, param_name):
     param = param.replace('\x00', '')
     
     if param_name == 'code':
-        # OAuth authorization codes are typically 32 hexadecimal characters
+        # ICS authorization codes have 32 hexadecimal characters
         if re.match(r'^[A-Fa-f0-9]{32}$', param):
             return param
         else:
