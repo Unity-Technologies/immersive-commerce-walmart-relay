@@ -131,18 +131,11 @@ public class WalmartCommerceService : IWalmartCommerceService
 
         _logger.LogDebug("Calling Walmart ICS to retrieve login URL.");
         _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Request headers: {_httpClient.DefaultRequestHeaders}");
         _logger.LogDebug($"Response status code: {response.StatusCode}");
-        _logger.LogDebug($"Response body: {await response.Content.ReadAsStringAsync()}");
 
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogError("Error in retrieving login URL from Walmart ICS.");
-            _logger.LogError($"Request url: {fullUrl}");
-            _logger.LogError($"Request headers: {_httpClient.DefaultRequestHeaders}");
-            _logger.LogError($"Response status code: {response.StatusCode}");
-            _logger.LogError($"Response body: {await response.Content.ReadAsStringAsync()}");
-
             return new LoginUrlResponse([new GetLoginError()], string.Empty, []);
         }
 
@@ -151,10 +144,6 @@ public class WalmartCommerceService : IWalmartCommerceService
         if (content == null || string.IsNullOrEmpty(content.LoginUrl))
         {
             _logger.LogError("Error in retrieving login URL from Walmart ICS. Received null content.");
-            _logger.LogError($"Request url: {fullUrl}");
-            _logger.LogError($"Request headers: {_httpClient.DefaultRequestHeaders}");
-            _logger.LogError($"Response status code: {response.StatusCode}");
-
             return new LoginUrlResponse([new GetLoginError()], string.Empty, []);
         }
 
@@ -194,24 +183,15 @@ public class WalmartCommerceService : IWalmartCommerceService
 
         _logger.LogDebug("Calling Walmart ICS to get account details.");
         _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Request headers: {_httpClient.DefaultRequestHeaders}");
         _logger.LogDebug($"Response status code: {response.StatusCode}");
-        _logger.LogDebug($"Response body: {await response.Content.ReadAsStringAsync()}");
 
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogError("Error in retrieving account details.");
-            _logger.LogError($"Request url: {fullUrl}");
-            _logger.LogError($"Request headers: {_httpClient.DefaultRequestHeaders}");
-            _logger.LogError($"Response status code: {response.StatusCode}");
-            _logger.LogError($"Response body: {await response.Content.ReadAsStringAsync()}");
-
             var error = await MapErrors(response);
 
             return new AccountDetailsResponse([error ?? new AccountDetailsRequestError()], new AccountDetailsPayloadResponse(), []);
         }
-
-        _logger.LogInformation($"Response body from get-account-details: {await response.Content.ReadAsStringAsync()}");
 
         var content = await response.Content.ReadFromJsonAsync<GetAccountDetailsResponse>();
         if (content == null ||
@@ -274,15 +254,13 @@ public class WalmartCommerceService : IWalmartCommerceService
             "application/json");
 
         using var response = await _httpClient.PostAsync(fullUrl, requestContent);
+        _logger.LogDebug("Calling Walmart ICS to link account.");
+        _logger.LogDebug($"Request url: {fullUrl}");
+        _logger.LogDebug($"Response status code: {response.StatusCode}");
+        
         if (!response.IsSuccessStatusCode)
         {
-            var message = $"Error in linking account with Walmart ICS.";
-            _logger.LogError(message);
-            _logger.LogError($"Request url: {fullUrl}");
-            _logger.LogError($"Request headers: {_httpClient.DefaultRequestHeaders}");
-            _logger.LogError($"Request body: {await requestContent.ReadAsStringAsync()}");
-            _logger.LogError($"Response status code: {response.StatusCode}");
-            _logger.LogError($"Response body: {await response.Content.ReadAsStringAsync()}");
+            _logger.LogError("Error in linking account with Walmart ICS.");
 
             return new LinkAccountResponse([new LinkAccountError()], false, []);
         }
@@ -339,14 +317,14 @@ public class WalmartCommerceService : IWalmartCommerceService
         _httpClient.DefaultRequestHeaders.Add(WalmartAuthService.LCID_HEADER, lcid);
 
         using var response = await _httpClient.DeleteAsync(fullUrl);
+        
+        _logger.LogDebug("Calling Walmart ICS to unlink account.");
+        _logger.LogDebug($"Request url: {fullUrl}");
+        _logger.LogDebug($"Response status code: {response.StatusCode}");
+
         if (!response.IsSuccessStatusCode)
         {
-            var message = "Error in unlinking account with Walmart ICS.";
-            _logger.LogError(message);
-            _logger.LogError($"Request url: {fullUrl}");
-            _logger.LogError($"Request headers: {_httpClient.DefaultRequestHeaders}");
-            _logger.LogError($"Response status code: {response.StatusCode}");
-            _logger.LogError($"Response body: {await response.Content.ReadAsStringAsync()}");
+            _logger.LogError("Error in unlinking account with Walmart ICS.");
 
             return new UnlinkAccountResponse([new UnlinkAccountError()], false, []);
         }
@@ -407,20 +385,11 @@ public class WalmartCommerceService : IWalmartCommerceService
 
         _logger.LogDebug("Calling Walmart ICS to place order.");
         _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Request headers: {_httpClient.DefaultRequestHeaders}");
-        _logger.LogDebug($"Request body: {await requestContent.ReadAsStringAsync()}");
         _logger.LogDebug($"Response status code: {response.StatusCode}");
-        _logger.LogDebug($"Response body: {await response.Content.ReadAsStringAsync()}");
 
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogError("Error while placing order with Walmart ICS.");
-            _logger.LogError($"Request url: {fullUrl}");
-            _logger.LogError($"Request headers: {_httpClient.DefaultRequestHeaders}");
-            _logger.LogError($"Request body: {await requestContent.ReadAsStringAsync()}");
-            _logger.LogError($"Response status code: {response.StatusCode}");
-            _logger.LogError($"Response body: {await response.Content.ReadAsStringAsync()}");
-
             var error = await MapErrors(response);
 
             return new PlaceOrderResponse([error ?? new PlaceOrderRequestError()], new PlaceOrderPayloadResponse());
@@ -495,20 +464,11 @@ public class WalmartCommerceService : IWalmartCommerceService
 
         _logger.LogDebug("Calling Walmart ICS to prepare order.");
         _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Request headers: {_httpClient.DefaultRequestHeaders}");
-        _logger.LogDebug($"Request body: {await requestContent.ReadAsStringAsync()}");
         _logger.LogDebug($"Response status code: {response.StatusCode}");
-        _logger.LogDebug($"Response body: {await response.Content.ReadAsStringAsync()}");
 
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogError("Error while preparing order with Walmart ICS.");
-            _logger.LogError($"Request url: {fullUrl}");
-            _logger.LogError($"Request headers: {_httpClient.DefaultRequestHeaders}");
-            _logger.LogError($"Request body: {await requestContent.ReadAsStringAsync()}");
-            _logger.LogError($"Response status code: {response.StatusCode}");
-            _logger.LogError($"Response body: {await response.Content.ReadAsStringAsync()}");
-
             var error = await MapErrors(response);
 
             return new PrepareOrderResponse([error ?? new PrepareOrderRequestError()], new PrepareOrderPayloadResponse(), []);
@@ -567,20 +527,11 @@ public class WalmartCommerceService : IWalmartCommerceService
 
         _logger.LogDebug("Calling Walmart ICS to set shipping address.");
         _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Request headers: {_httpClient.DefaultRequestHeaders}");
-        _logger.LogDebug($"Request body: {await requestContent.ReadAsStringAsync()}");
         _logger.LogDebug($"Response status code: {response.StatusCode}");
-        _logger.LogDebug($"Response body: {await response.Content.ReadAsStringAsync()}");
 
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogError("Error while setting shipping address with Walmart ICS.");
-            _logger.LogError($"Request url: {fullUrl}");
-            _logger.LogError($"Request headers: {_httpClient.DefaultRequestHeaders}");
-            _logger.LogError($"Request body: {await requestContent.ReadAsStringAsync()}");
-            _logger.LogError($"Response status code: {response.StatusCode}");
-            _logger.LogError($"Response body: {await response.Content.ReadAsStringAsync()}");
-
             var error = await MapErrors(response);
 
             return new PrepareOrderResponse([error ?? new SetShippingAddressRequestError()], new PrepareOrderPayloadResponse(), []);
