@@ -127,11 +127,9 @@ public class WalmartCommerceService : IWalmartCommerceService
             fullUrl += $"?platform={platform}";
         }
 
-        using var response = await _httpClient.GetAsync(fullUrl);
-
         _logger.LogDebug("Calling Walmart ICS to retrieve login URL.");
-        _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Response status code: {response.StatusCode}");
+
+        using var response = await _httpClient.GetAsync(fullUrl);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -179,11 +177,9 @@ public class WalmartCommerceService : IWalmartCommerceService
         var fullUrl = string.Format(ICS_GET_ACCOUNT_DETAILS_URL, icsHostname, isSandbox ? ICS_SANDBOX_URL_FRAGMENT : string.Empty, titleId);
         _httpClient.DefaultRequestHeaders.Add(WalmartAuthService.LCID_HEADER, lcid);
 
-        using var response = await _httpClient.GetAsync(fullUrl);
-
         _logger.LogDebug("Calling Walmart ICS to get account details.");
-        _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Response status code: {response.StatusCode}");
+        
+        using var response = await _httpClient.GetAsync(fullUrl);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -253,10 +249,9 @@ public class WalmartCommerceService : IWalmartCommerceService
         var requestContent = new StringContent(JsonSerializer.Serialize(linkRequest, _jsonOptions), Encoding.UTF8,
             "application/json");
 
-        using var response = await _httpClient.PostAsync(fullUrl, requestContent);
         _logger.LogDebug("Calling Walmart ICS to link account.");
-        _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Response status code: {response.StatusCode}");
+        
+        using var response = await _httpClient.PostAsync(fullUrl, requestContent);
         
         if (!response.IsSuccessStatusCode)
         {
@@ -316,11 +311,9 @@ public class WalmartCommerceService : IWalmartCommerceService
         var fullUrl = string.Format(ICS_UNLINK_ACCOUNT_URL, icsHostname, isSandbox ? ICS_SANDBOX_URL_FRAGMENT : string.Empty, titleId);
         _httpClient.DefaultRequestHeaders.Add(WalmartAuthService.LCID_HEADER, lcid);
 
-        using var response = await _httpClient.DeleteAsync(fullUrl);
-        
         _logger.LogDebug("Calling Walmart ICS to unlink account.");
-        _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Response status code: {response.StatusCode}");
+        
+        using var response = await _httpClient.DeleteAsync(fullUrl);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -381,11 +374,10 @@ public class WalmartCommerceService : IWalmartCommerceService
 
         var requestContent = new StringContent(JsonSerializer.Serialize(postPlaceOrderRequest, _jsonOptions), Encoding.UTF8,
             "application/json");
-        using var response = await _httpClient.PostAsync(fullUrl, requestContent);
-
+        
         _logger.LogDebug("Calling Walmart ICS to place order.");
-        _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Response status code: {response.StatusCode}");
+        
+        using var response = await _httpClient.PostAsync(fullUrl, requestContent);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -460,11 +452,10 @@ public class WalmartCommerceService : IWalmartCommerceService
         };
 
         var requestContent = new StringContent(JsonSerializer.Serialize(request, _jsonOptions), Encoding.UTF8, "application/json");
-        using var response = await _httpClient.PostAsync(fullUrl, requestContent);
-
+        
         _logger.LogDebug("Calling Walmart ICS to prepare order.");
-        _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Response status code: {response.StatusCode}");
+        
+        using var response = await _httpClient.PostAsync(fullUrl, requestContent);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -523,11 +514,10 @@ public class WalmartCommerceService : IWalmartCommerceService
         };
 
         var requestContent = new StringContent(JsonSerializer.Serialize(request, _jsonOptions), Encoding.UTF8, "application/json");
-        using var response = await _httpClient.PostAsync(fullUrl, requestContent);
-
+        
         _logger.LogDebug("Calling Walmart ICS to set shipping address.");
-        _logger.LogDebug($"Request url: {fullUrl}");
-        _logger.LogDebug($"Response status code: {response.StatusCode}");
+        
+        using var response = await _httpClient.PostAsync(fullUrl, requestContent);
 
         if (!response.IsSuccessStatusCode)
         {

@@ -36,6 +36,7 @@ public class LoggingSocketsHttpHandler(SocketsHttpHandler handler, ILogger logge
         logger.LogDebug($"Sending request to {request.RequestUri}");
         var response = await base.SendAsync(request, cancellationToken);
         logger.LogDebug($"Received response from {request.RequestUri}");
+        logger.LogDebug($"Response status code: {response.StatusCode}");
         var traceparentHeader = response.Headers.TryGetValues(HttpHeaderUtilities.ICS_TRACE_HEADER, out var values) ? values.First() : "HEADER MISSING FROM RESPONSE";
         logger.LogDebug($" ICS {HttpHeaderUtilities.ICS_TRACE_HEADER} header: {traceparentHeader}");
         return response;
