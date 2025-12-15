@@ -24,13 +24,12 @@ The ARS will be the custodian of the credentials needed to call Walmart APIs as 
 
 This project uses Unity Cloud Code and Unity RemoteConfig to set up a REST API that the Walmart Immersive Commerce SDK can then communicate with, to do authenticated tasks such as authenticated item checkout and purchase.
 
-This sample project is intended to be a reference for the calls being made between a Unity application and the Walmart Immersive Commerce backend infrastructure. Applying the best security practices that are inline with your organization guidelines is your responsibility.
+This sample project is provided solely for reference to demonstrate interactions between a Unity application and the Walmart Immersive Commerce backend infrastructure. Unity has incorporated industry standard security best practices in developing this sample. It is your organization’s responsibility to determine and implement any additional security measures needed to align with your internal guidelines. Unity disclaims all liability for any loss, damage, or security breach resulting from use of this sample.
 
 Potential areas of hardening:
 
 * HTTP retry logic when doing REST calls to IAM and ICS
 * Retry logic when making calls to Unity Cloud services
-* Secrets handling through proper secrets service
 * Performance and observability analytics through a service such as AWS X-Ray or Azure Monitor or Datadog 
 
 ## Target Audience
