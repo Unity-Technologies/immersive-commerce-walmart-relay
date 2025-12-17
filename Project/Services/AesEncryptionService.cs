@@ -37,7 +37,7 @@ public class AesEncryptionService : IEncryptionService
             var key = await GetEncryptionKeyAsync(ctx, client);
             var plainBytes = Encoding.UTF8.GetBytes(plainText);
             
-            using var aes = new AesGcm(key);
+            using var aes = new AesGcm(key, TAG_SIZE);
             var iv = new byte[IV_SIZE];
             var ciphertext = new byte[plainBytes.Length];
             var tag = new byte[TAG_SIZE];
@@ -91,7 +91,7 @@ public class AesEncryptionService : IEncryptionService
             Buffer.BlockCopy(encryptedData, IV_SIZE, tag, 0, TAG_SIZE);
             Buffer.BlockCopy(encryptedData, IV_SIZE + TAG_SIZE, ciphertext, 0, ciphertext.Length);
             
-            using var aes = new AesGcm(key);
+            using var aes = new AesGcm(key, TAG_SIZE);
             var plainBytes = new byte[ciphertext.Length];
             aes.Decrypt(iv, ciphertext, tag, plainBytes);
             

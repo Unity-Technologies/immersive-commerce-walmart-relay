@@ -22,8 +22,8 @@ public class PlayerDataService : IPlayerDataService
 
     public PlayerDataService(ILogger<IPlayerDataService> logger, IEncryptionService encryptionService)
     {
-        _logger = logger;
-        _encryptionService = encryptionService;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _encryptionService = encryptionService ?? throw new ArgumentNullException(nameof(encryptionService));
     }
 
     public async Task<string> GetPlayerLcidAsync(IExecutionContext ctx, IGameApiClient client)
