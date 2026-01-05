@@ -126,7 +126,7 @@ public class PlayerDataServiceTests
 
         // Create test response with StatusCode property
         var cloudSaveResponse = new ApiResponse<SetItemResponse>();
-        typeof(ApiResponse<SetItemResponse>) .GetProperty("StatusCode")! .SetValue(cloudSaveResponse, HttpStatusCode.OK);
+        typeof(ApiResponse<SetItemResponse>).GetProperty("StatusCode")!.SetValue(cloudSaveResponse, HttpStatusCode.OK);
         
         mockCloudSaveData
             .Setup(x => x.SetItemAsync(It.IsAny<IExecutionContext>(), It.IsAny<string>(), It.IsAny<string>(), 
