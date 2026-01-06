@@ -15,6 +15,7 @@ public class ModuleConfig : ICloudCodeSetup
         config.Dependencies.AddSingleton<IMapperService, MapperService>();
         config.Dependencies.AddSingleton<IConfigService, RemoteConfigService>();
         config.Dependencies.AddSingleton<ISecretService, SecretManagerService>();
+        config.Dependencies.AddSingleton<IEncryptionService, AesEncryptionService>();
         config.Dependencies.AddSingleton<IPlayerDataService, PlayerDataService>();
         config.Dependencies.AddSingleton<IHttpClientFactory, HttpClientFactory>();
         config.Dependencies.AddSingleton<IWalmartAuthService, WalmartAuthService>();

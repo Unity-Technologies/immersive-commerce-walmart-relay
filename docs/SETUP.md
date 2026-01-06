@@ -88,11 +88,24 @@ Create a `configuration.rc` file with the following structure:
 }
 ```
 
-### 4. Set up Secret Manager
+### 4. Set up Walmart client secret in Secret Manager
 The following secret must be added at the project level: `WALMART_IAM_CLIENT_SECRET`. 
 The secret is obtained from Unity dashboard, in the Setup section. More details about adding a secret can be found in the 
 [documentation](https://docs.unity.com/ugs/en-us/manual/secret-manager/manual/tutorials/store-secrets#add-a-secret).
 
-### 5. Deploy Cloud Code C# module
+### 5. Set up LCID encryption key in Secret Manager
+The PlayerDataService encrypts LCID values using AES-256-GCM.
+Generate a secure 256-bit (32-byte) key and encode it as base64:
+```bash
+# Generate random 32-byte key and encode as base64
+openssl rand -base64 32
+```
+Set the `LCID_ENCRYPTION_KEY` project secret using the value from above.
+
+#### Important Notes
+- The key must be exactly 256 bits (32 bytes) when decoded from base64
+- Keep the key secure - losing it will make existing encrypted data unrecoverable
+
+### 6. Deploy Cloud Code C# module
 
 See the main [README.md](../README.md) file for deployment instructions.
